@@ -1,6 +1,6 @@
 <?php
 
-namespace Marcz\Swiftype;
+namespace Marcz\Swiftype\Extensions;
 
 use Extension;
 use Requirements;

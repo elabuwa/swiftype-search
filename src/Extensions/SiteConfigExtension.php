@@ -6,7 +6,7 @@
  * Time: 2:53 PM
  */
 
-namespace Marcz\Swiftype;
+namespace Marcz\Swiftype\Extensions;
 
 use DataExtension;
 use FieldList;

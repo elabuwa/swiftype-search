@@ -6,7 +6,7 @@
  * Time: 10:51 AM
  */
 
-namespace Marcz\Swiftype;
+namespace Marcz\Swiftype\Extensions;
 
 use DataExtension;
 use SiteConfig;
@@ -40,5 +40,9 @@ class SiteTreeExtension extends DataExtension{
         }
     }
 
+    public function onAfterWrite()
+    {
+       $updatedURL = $this->owner->AbsoluteLink();
 
+    }
 }
