@@ -9,6 +9,8 @@
 namespace Marcz\Swiftype;
 
 use DataExtension;
+use FieldList;
+use TextField;
 
 class SiteConfigExtension extends DataExtension
 {
@@ -24,7 +26,7 @@ class SiteConfigExtension extends DataExtension
     {
         $fields->addFieldsToTab('Root.Swiftype', array(
             TextField::create('DefaultMeta','Default Meta Type Content'),
-            TextField::create('PageTypeEnabled','Enable Page Type Meta'),
+            \CheckboxField::create('PageTypeEnabled','Enable Page Type Meta'),
         ));
     }
 }
