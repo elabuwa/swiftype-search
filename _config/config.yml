@@ -17,4 +17,4 @@ Marcz\Search\Processor\Exporter:
     - Marcz\Swiftype\Extensions\Exporter
 SiteTree:
   extensions:
-  - Marcz\Swiftype\SiteTreeExtension
+    - Marcz\Swiftype\SiteTreeExtension
