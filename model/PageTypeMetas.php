@@ -21,7 +21,4 @@ class PageTypeMetas extends DataObject
         'key' => 'Key',
         'value' => 'Meta Content'
     );
-
-    
-
 }
