@@ -20,6 +20,7 @@ class SiteTreeExtension extends DataExtension{
         $defaultMeta = $siteConfig->DefaultMeta;
         $PageTypeEnabled = (bool) $siteConfig->PageTypeEnabled;
         if($PageTypeEnabled === true){
+            //Todo : combine segment number and value checking at a later stage
             $abLink =  $this->owner->AbsoluteLink();
             $segments = explode("/", $abLink);
             $segment = $segments[3];
@@ -37,26 +38,7 @@ class SiteTreeExtension extends DataExtension{
                 $tags .= "<meta class=\"swiftype\" name=\"type\" data-type=\"enum\" content=\"$defaultMeta\" />\n";
             }
         }
-
-//        switch ($segment){
-//            case "business":
-//                $meta = "business";
-//                break;
-//            case "agribusiness":
-//                $meta = "agribusiness";
-//                break;
-//            case "wib":
-//                $meta = "institutional";
-//                break;
-//            case "who-we-are":
-//                $meta = "who-we-are";
-//                break;
-//            case "ask-westpac":
-//                $meta = "ask-westpac";
-//                break;
-//            default:
-//                $meta = "personal";
-//        }
-
     }
+
+
 }
