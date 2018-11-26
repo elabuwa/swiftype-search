@@ -8,6 +8,8 @@
 
 class PageTypeMetas extends DataObject
 {
+    private static $plural_name = "Page Type Metas";
+
     private static $db = array(
         'segmentNumber' => 'Int',
         'key' => 'Varchar',
@@ -19,4 +21,7 @@ class PageTypeMetas extends DataObject
         'key' => 'Key',
         'value' => 'Meta Content'
     );
+
+    
+
 }
