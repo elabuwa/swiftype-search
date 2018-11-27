@@ -4,10 +4,11 @@ namespace Marcz\Swiftype\Jobs;
 
 use AbstractQueuedJob;
 use QueuedJob;
-use Marcz\Swiftype\Processor\SwiftExporter;
+use SiteConfig;
 use Marcz\Swiftype\SwiftypeClient;
 use Exception;
 use DataList;
+
 
 class CrawlExport extends AbstractQueuedJob implements QueuedJob
 {
@@ -42,6 +43,7 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
 
     public function process()
     {
+
         if (!$this->indexName) {
             throw new Exception('Missing indexName defined on the constructor');
         }
@@ -49,6 +51,22 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
         if (!$this->className) {
             throw new Exception('Missing className defined on the constructor');
         }
+        if (!$this->recordID) {
+            throw new Exception('Missing recordID defined on the constructor');
+        }
+
+        $list   = new DataList($this->className);
+        $record = $list->byID($this->recordID);
+
+        if (!$record) {
+            throw new Exception('Record not found.');
+        }
+
+
+        $siteConfig = SiteConfig::current_site_config();
+        $engineKey = $siteConfig->EngineKey;
+
+
 
         $this->addMessage('Todo: Implement crawling feature.');
         $this->isComplete = true;
