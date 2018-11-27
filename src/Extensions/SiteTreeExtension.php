@@ -9,10 +9,16 @@
 namespace Marcz\Swiftype\Extensions;
 
 use DataExtension;
+use Marcz\Swiftype\Jobs\CrawlExport;
+use Marcz\Swiftype\Jobs\JsonExport;
+use QueuedJobService;
 use SiteConfig;
 use PageTypeMetas;
+use Marcz\Swiftype\SwiftypeClient;
 
 class SiteTreeExtension extends DataExtension{
+
+    const SEARCH_INDEX = 'Page';
 
     public function MetaTags(&$tags)
     {
@@ -42,7 +48,12 @@ class SiteTreeExtension extends DataExtension{
 
     public function onAfterWrite()
     {
-       $updatedURL = $this->owner->AbsoluteLink();
+        $updatedURL = $this->owner->AbsoluteLink();
+        $className = $this->owner->ClassName;
+        $recordId = $this->owner->ID;
+
+        $job = new CrawlExport(self::SEARCH_INDEX, $className, $recordId);
+        singleton(QueuedJobService::class)->queueJob($job);
 
     }
 }
