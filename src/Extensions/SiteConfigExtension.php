@@ -21,7 +21,8 @@ class SiteConfigExtension extends DataExtension
         'DefaultMeta' => 'Varchar',
         'PageTypeEnabled' => 'Varchar',
         'EngineKey' => 'Varchar',
-        'DomainID' => 'Varchar'
+        'DomainID' => 'Varchar',
+        'EngineSlug' => 'Varchar'
     );
 
     public function updateCMSFields(FieldList $fields)
@@ -29,6 +30,7 @@ class SiteConfigExtension extends DataExtension
         $fields->addFieldsToTab('Root.Swiftype', array(
             TextField::create('EngineKey','Engine Key'),
             TextField::create('DomainID','Domain ID'),
+            TextField::create('EngineSlug','Engine Slug'),
             TextField::create('DefaultMeta','Default Meta Type Content'),
             \CheckboxField::create('PageTypeEnabled','Enable Page Type Meta'),
         ));
