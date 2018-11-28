@@ -4,11 +4,13 @@
  * User: dileepratnayake
  * Date: 28/11/18
  * Time: 11:55 AM
+ * This class attempts to cover all requirements for Swiftype site crawler api functions
  */
 
 namespace Marcz\Swiftype;
 
 use GuzzleHttp\Ring\Client\CurlHandler;
+
 
 class SwiftypeCrawlClient
 {
@@ -27,6 +29,10 @@ class SwiftypeCrawlClient
     const baseEndPoint = "//api.swiftype.com/api/v1/engines/";
 
     //Todo : Async handling
+
+    /*
+    the engine slug, domain ID, engine key, apiKey can be retrieved from the swiftype dashboard.
+    These are required for the new object */
 
     public function __construct($engineSlug, $domainID, $engineKey, $apiKey)
     {
@@ -61,14 +67,18 @@ class SwiftypeCrawlClient
         $this->endpoint = $endPoint;
     }
 
-
     public function crawlURL($url){
         $this->endpoint = $this::baseEndPoint . $this->engineSlug . "/domains/" . $this->domainID . "/crawl_url.json";
         $this->httpMethod = "PUT";
-        $this->headers = array();
+        $this->headers = array(
+            'Content-Type' => 'application/json'
+        );
         $this->scheme = "https";
+
+        //set the body as required by swiftype
         $data['auth_token'] = $this->apiKey;
         $data['url'] = $url;
+
         $this->body = json_encode($data);
 
         $results = $this->execute();
