@@ -65,6 +65,7 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
 
         $siteConfig = SiteConfig::current_site_config();
         $engineKey = $siteConfig->EngineKey;
+        $domainID = $siteConfig->DomainID;
 
 
 
