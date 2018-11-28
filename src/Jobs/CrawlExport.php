@@ -8,6 +8,7 @@ use SiteConfig;
 use Marcz\Swiftype\SwiftypeClient;
 use Exception;
 use DataList;
+use SiteTree;
 
 
 class CrawlExport extends AbstractQueuedJob implements QueuedJob
@@ -58,16 +59,27 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
         $list   = new DataList($this->className);
         $record = $list->byID($this->recordID);
 
+
         if (!$record) {
             throw new Exception('Record not found.');
         }
 
 
         $siteConfig = SiteConfig::current_site_config();
+        //echo \Director::absoluteBaseURL();
+
+
         $engineKey = $siteConfig->EngineKey;
         $domainID = $siteConfig->DomainID;
 
 
+       // $page = SiteTree::get()->byID($this->recordID);
+        $baseUrl = \Director::absoluteBaseURL();
+        $Link = \DataObject::get_by_id("SiteTree", $this->recordID)->Link();
+
+        $pageUrl = $baseUrl . $Link;
+        echo $pageUrl;
+        die();
 
         $this->addMessage('Todo: Implement crawling feature.');
         $this->isComplete = true;
