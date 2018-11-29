@@ -74,7 +74,7 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
 
 
        // $page = SiteTree::get()->byID($this->recordID);
-        $baseUrl = \Director::absoluteBaseURL();
+        $baseUrl = rtrim(\Director::absoluteBaseURL(),'/');
         $Link = \DataObject::get_by_id("SiteTree", $this->recordID)->Link();
 
         $pageUrl = $baseUrl . $Link;
