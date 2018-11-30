@@ -26,7 +26,7 @@ class SwiftypeCrawlClient
     protected $body;
     protected $async;
 
-    const baseEndPoint = "//api.swiftype.com/api/v1/engines/";
+    const baseEndPoint = "api.swiftype.com/api/v1/engines/";
 
     //Todo : Async handling
 
@@ -68,11 +68,15 @@ class SwiftypeCrawlClient
     }
 
     public function crawlURL($url){
+        echo $url;
         $this->endpoint = $this::baseEndPoint . $this->engineSlug . "/domains/" . $this->domainID . "/crawl_url.json";
+
         $this->httpMethod = "PUT";
-        $this->headers = array(
-            'Content-Type' => 'application/json'
-        );
+        /*$this->headers['host'] = array(
+            'Content-Type' => 'application/json',
+            'Host' => 'westpac.co.nz'
+        );*/
+        $this->headers['host'] = 'westpac.co.nz';
         $this->scheme = "https";
 
         //set the body as required by swiftype
@@ -86,11 +90,17 @@ class SwiftypeCrawlClient
     }
 
     private function execute(){
-        $response = $this->handler([
+        $handler = new CurlHandler();
+
+        $response = $handler([
             'http_method' => $this->httpMethod,
             'scheme'      => $this->scheme,
-            'uri'         => $this->endpoint,
-            'headers'     => $this->headers,
+            /*'uri'         => $this->endpoint,*/
+           /* 'headers'     => $this->headers,*/
+            'headers'     => [
+                'host'  => [$this->endpoint],
+                'Content-Type' => ['application/json']
+            ],
             'body'        => $this->body,
             'future'      => $this->async
         ]);
