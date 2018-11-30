@@ -3,12 +3,13 @@
 namespace Marcz\Swiftype\Jobs;
 
 use AbstractQueuedJob;
+use Marcz\Swiftype\SwiftypeCrawlClient;
 use QueuedJob;
 use SiteConfig;
 use Marcz\Swiftype\SwiftypeClient;
 use Exception;
 use DataList;
-use SiteTree;
+use Director;
 
 
 class CrawlExport extends AbstractQueuedJob implements QueuedJob
@@ -71,16 +72,20 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
 
         $engineKey = $siteConfig->EngineKey;
         $domainID = $siteConfig->DomainID;
-
+        $engineSlug = $siteConfig->EngineSlug;
+        $apiKey = SS_SWIFTYPE_AUTH_TOKEN;
 
        // $page = SiteTree::get()->byID($this->recordID);
         $baseUrl = rtrim(\Director::absoluteBaseURL(),'/');
         $Link = \DataObject::get_by_id("SiteTree", $this->recordID)->Link();
 
         $pageUrl = $baseUrl . $Link;
-        echo $pageUrl;
-        die();
 
+        $crawlClient = new SwiftypeCrawlClient($engineSlug, $domainID, $engineKey, $apiKey);
+        $crawlResults = $crawlClient->crawlURL($pageUrl);
+
+        print_r($crawlResults);
+        die();
         $this->addMessage('Todo: Implement crawling feature.');
         $this->isComplete = true;
     }
