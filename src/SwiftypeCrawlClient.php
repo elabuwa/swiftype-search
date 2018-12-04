@@ -39,10 +39,7 @@ class SwiftypeCrawlClient
         $this->domainID = $domainID;
         $this->engineKey = $engineKey;
         $this->apiKey = $apiKey;
-        $this->handler = new CurlHandler();
         $this->headers = array();
-        $this->scheme = 'https';
-        $this->async = false;
         $this->body = '';
     }
 
