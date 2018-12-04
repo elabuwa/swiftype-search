@@ -82,11 +82,10 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
 
         $crawlClient = new SwiftypeCrawlClient($engineSlug, $domainID, $engineKey, $apiKey);
         $crawlResults = $crawlClient->crawlURL($pageUrl);
-
-        print_r($crawlResults);
-        die();
-        $this->addMessage('Todo: Implement crawling feature.');
-        $this->isComplete = true;
+        if($crawlResults->getStatusCode() == 201){
+            $this->addMessage('Single URL Crawl Request Successfully Submitted');
+            $this->isComplete = true;
+        }
     }
 
     /**
