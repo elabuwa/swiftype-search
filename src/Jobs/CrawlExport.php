@@ -75,7 +75,6 @@ class CrawlExport extends AbstractQueuedJob implements QueuedJob
         $engineSlug = $siteConfig->EngineSlug;
         $apiKey = SS_SWIFTYPE_AUTH_TOKEN;
 
-       // $page = SiteTree::get()->byID($this->recordID);
         $baseUrl = rtrim(\Director::absoluteBaseURL(),'/');
         $Link = \DataObject::get_by_id("SiteTree", $this->recordID)->Link();
 
