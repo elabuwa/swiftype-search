@@ -14,6 +14,7 @@ use GuzzleHttp\Client;
 
 class SwiftypeCrawlClient
 {
+    //Some of these are not being used since moved away from guzzle/ringphp. Need to clean up.
     protected $apiKey;
     protected $engineSlug;
     protected $domainID;
@@ -85,6 +86,27 @@ class SwiftypeCrawlClient
 
         );
         return $res;
+    }
+    public function getSearchResults($query,$pageNumber = 1, $perPage = 10, $allCategories = true, $documentTypes = [])
+    {
+        $this->endpoint = "https://search-api.swiftype.com/api/v1/public/engines/search.json";
+        $SiteConfig = \SiteConfig::current_site_config();
+        $pageCategoryName = $SiteConfig->PageCategoryMetaName;
+
+        $body['q'] = $query;
+        $body['engine_key'] = $this->engineKey;
+        $body['page'] = $pageNumber;
+        $body['per_page'] = $perPage;
+
+        if($allCategories === false && count($documentTypes)){
+            $body['filters']['page'][$pageCategoryName] = $documentTypes;
+        }
+        echo json_encode($body);
+        die();
+        $client =  new \GuzzleHttp\Client();
+        $response = $client->request('GET', $this->endpoint, ['body' => json_encode($body), 'headers' => ['Content-Type'     => 'application/json']]);
+        return $response->getBody();
+
     }
 
 }
