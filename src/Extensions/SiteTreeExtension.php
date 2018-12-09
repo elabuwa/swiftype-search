@@ -24,6 +24,7 @@ class SiteTreeExtension extends DataExtension{
     {
         $siteConfig = SiteConfig::current_site_config();
         $defaultMeta = $siteConfig->DefaultMeta;
+        $pageCategoryMetaName = $siteConfig->PageCategoryMetaName;
         $PageTypeEnabled = (bool) $siteConfig->PageTypeEnabled;
         if($PageTypeEnabled === true){
             //Todo : combine segment number and value checking at a later stage
@@ -39,9 +40,9 @@ class SiteTreeExtension extends DataExtension{
             if($result->exists()){
                 $first = $result->first();
                 $meta = $first->value;
-                $tags .= "<meta class=\"swiftype\" name=\"type\" data-type=\"enum\" content=\"$meta\" />\n";
+                $tags .= "<meta class=\"swiftype\" name=\"$pageCategoryMetaName\" data-type=\"enum\" content=\"$meta\" />\n";
             } else {
-                $tags .= "<meta class=\"swiftype\" name=\"type\" data-type=\"enum\" content=\"$defaultMeta\" />\n";
+                $tags .= "<meta class=\"swiftype\" name=\"$pageCategoryMetaName\" data-type=\"enum\" content=\"$defaultMeta\" />\n";
             }
         }
     }

@@ -22,7 +22,8 @@ class SiteConfigExtension extends DataExtension
         'PageTypeEnabled' => 'Varchar',
         'EngineKey' => 'Varchar',
         'DomainID' => 'Varchar',
-        'EngineSlug' => 'Varchar'
+        'EngineSlug' => 'Varchar',
+        'PageCategoryMetaName' => 'Varchar'
     );
 
     public function updateCMSFields(FieldList $fields)
@@ -32,6 +33,7 @@ class SiteConfigExtension extends DataExtension
             TextField::create('DomainID','Domain ID'),
             TextField::create('EngineSlug','Engine Slug'),
             TextField::create('DefaultMeta','Default Meta Type Content'),
+            TextField::create('PageCategoryMetaName','Page Category Meta Name'),
             \CheckboxField::create('PageTypeEnabled','Enable Page Type Meta'),
         ));
     }
