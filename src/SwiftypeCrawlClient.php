@@ -101,8 +101,7 @@ class SwiftypeCrawlClient
         if($allCategories === false && count($documentTypes)){
             $body['filters']['page'][$pageCategoryName] = $documentTypes;
         }
-        echo json_encode($body);
-        die();
+
         $client =  new \GuzzleHttp\Client();
         $response = $client->request('GET', $this->endpoint, ['body' => json_encode($body), 'headers' => ['Content-Type'     => 'application/json']]);
         return $response->getBody();
