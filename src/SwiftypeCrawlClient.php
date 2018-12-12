@@ -11,7 +11,6 @@ namespace Marcz\Swiftype;
 
 use GuzzleHttp\Client;
 
-
 class SwiftypeCrawlClient
 {
     //Some of these are not being used since moved away from guzzle/ringphp. Need to clean up.
@@ -73,23 +72,24 @@ class SwiftypeCrawlClient
         $data['url'] = $url;
         $this->body = json_encode($data);
 
-        $client = new Client();
-        $res = $client->request(
-            'PUT',
-            $this->endpoint,
-            [
-                'headers' => [
-                    'Content-Type'     => 'application/json',
-                ],
-                'body' => $this->body
-            ]
+        $clientOptions = [
+            'headers' => [
+                'Content-Type' => 'application/json',
+            ],
+            'body' => $this->body
+        ];
 
-        );
-        return $res;
+        if (defined('SS_WESTPAC_PROXY')) {
+            $clientOptions['proxy'] = SS_WESTPAC_PROXY;
+        }
+
+        $client = new Client();
+
+        return $client->request('PUT', $this->endpoint, $clientOptions);
     }
-    public function getSearchResults($query,$pageNumber = 1, $perPage = 10, $allCategories = true, $documentTypes = [])
+    public function getSearchResults($query, $pageNumber = 1, $perPage = 10, $allCategories = true, $documentTypes = [])
     {
-        $this->endpoint = "https://search-api.swiftype.com/api/v1/public/engines/search.json";
+        $this->endpoint = "https://api.swiftype.com/api/v1/public/engines/search.json";
         $SiteConfig = \SiteConfig::current_site_config();
         $pageCategoryName = $SiteConfig->PageCategoryMetaName;
 
@@ -98,14 +98,22 @@ class SwiftypeCrawlClient
         $body['page'] = $pageNumber;
         $body['per_page'] = $perPage;
 
-        if($allCategories === false && count($documentTypes)){
+        if ($allCategories === false && count($documentTypes)) {
             $body['filters']['page'][$pageCategoryName] = $documentTypes;
         }
 
+        $clientOptions = [
+            'body' => json_encode($body),
+            'headers' => ['Content-Type' => 'application/json'],
+        ];
+
+        if (defined('SS_WESTPAC_PROXY')) {
+            $clientOptions['proxy'] = SS_WESTPAC_PROXY;
+        }
+
         $client =  new \GuzzleHttp\Client();
-        $response = $client->request('GET', $this->endpoint, ['body' => json_encode($body), 'headers' => ['Content-Type'     => 'application/json']]);
+        $response = $client->request('GET', $this->endpoint, $clientOptions);
+
         return $response->getBody();
-
     }
-
 }
