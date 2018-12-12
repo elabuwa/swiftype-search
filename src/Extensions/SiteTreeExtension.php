@@ -34,7 +34,6 @@ class SiteTreeExtension extends DataExtension{
             $meta = null;
 
             $result = PageTypeMetas::get()->filter(array(
-                'segmentNumber' => 3,
                 'key' => $segment
             ));
             if($result->exists()){
